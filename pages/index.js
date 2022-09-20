@@ -1,46 +1,43 @@
-import { useState, useEffect } from "react";
-import { supabase } from "../utils/supabase-client";
-import Auth from "../components/Auth";
-import Account from "../components/Account";
+import { useState } from "react";
+import { withPageAuth, getUser } from "@supabase/auth-helpers-nextjs";
+import { Button, TextInput } from "@mantine/core";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+// import { useSession } from "../hooks/useSession";
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    let mounted = true;
-
-    async function getInitialSession() {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      // only update the react state if the component is still mounted
-      if (mounted) {
-        if (session) {
-          setSession(session);
-        }
-
-        setIsLoading(false);
-      }
-    }
-
-    getInitialSession();
-
-    const { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => {
-      mounted = false;
-
-      subscription?.unsubscribe();
-    };
-  }, []);
+function TodoInput() {
+  const [todo, setTodo] = useState("");
 
   return (
-    <div className="container" style={{ padding: "50px 0 100px 0" }}>
-      {!session ? <Auth /> : <Account key={session.user.id} session={session} />}
+    <div className="flex flex-row">
+      <TextInput value={todo} onChange={(e) => setTodo(e.currentTarget.value)} placeholder="Add a todo" />
+      <Button variant="light">Add</Button>
     </div>
   );
 }
+
+const Index = ({}) => {
+  
+  // console.log(user);
+  return (
+    <div>
+      {/* Welcome {user.email}!{" "} */}
+      <Button onClick={() => supabaseClient.auth.signOut()} variant="light">
+        <a>Logout</a>
+      </Button>
+      <TodoInput />
+      {/* {todos?.length > 0 ? todos.map((todo) => <p key={todo.id}>{todo.content}</p>) : <p>You have completed all todos!</p>} */}
+    </div>
+  );
+};
+
+// export const getServerSideProps = withPageAuth({
+//   redirectTo: "/login",
+//   async getServerSideProps(ctx) {
+//     // Access the user object
+//     const { user } = await getUser(ctx);
+//     console.log(user);
+//     return { props: { user } };
+//   },
+// });
+
+export default Index;
