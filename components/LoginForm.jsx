@@ -4,6 +4,7 @@ import React from "react";
 
 export default function LoginForm() {
   const [email, setEmail] = React.useState("");
+  const [showGoToEmail, setShowGoToEmail] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
@@ -14,6 +15,8 @@ export default function LoginForm() {
     });
     if (error) {
       setErrorMessage(error?.message || "Unknown error!");
+    } else {
+      setShowGoToEmail(true);
     }
     setLoading(false);
   };
@@ -31,6 +34,7 @@ export default function LoginForm() {
         <Button onClick={login}>Login</Button>
       </div>
       {loading && <Text color="dimmed">Loading...</Text>}
+      {showGoToEmail && <Text color="dimmed">Please check your email for the OTP code and enter it below.</Text>}
       {errorMessage && (
         <div>
           <Text align="center" size="sm" mt="xs" color="red">

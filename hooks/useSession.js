@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase-client";
 
 /**
- * This 
+ * This hook helps to manage the user session.
+ * @deprecated This hook is used as a proof of concept to play around with client side authentication.
  */
 export function useSession() {
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
   const [session, setSession] = useState(null);
 
   useEffect(() => {
@@ -14,7 +16,12 @@ export function useSession() {
     (async function getInitialSession() {
       const {
         data: { session },
+        error: _error,
       } = await supabase.auth.getSession();
+
+      if (_error) {
+        setError(_error);
+      }
 
       // Only update the react state if the component is still mounted.
       // NOTE: This check is needed because the component using this hook may be unmounted
@@ -43,6 +50,7 @@ export function useSession() {
 
   return {
     session,
+    error,
     isLoading,
   };
 }
