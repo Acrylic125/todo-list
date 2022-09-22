@@ -20,19 +20,17 @@ function TodoInput() {
 }
 
 const Index = ({ user }) => {
-  React.useEffect(() => {
-    supabase.auth.getSession().then((s) => {
-      console.log(s);
-    });
-    supabase
-      .from("profiles")
-      .select("*")
-      .then((s) => {
-        console.log(s);
-      });
-  }, []);
   return (
     <div>
+      {/* <Button
+        variant="light"
+        onClick={() => {
+          supabase.auth.signOut();
+        }}
+      >
+        Logout
+      </Button> */}
+
       <Link href="/api/auth/logout">
         <Button variant="light">Logout</Button>
       </Link>
@@ -56,14 +54,57 @@ const Index = ({ user }) => {
 /** @type {import("next").GetServerSideProps} */
 export async function getServerSideProps({ req }) {
   // console.log(req.cookies["refresh_token"]);
-  // const { data: user, error } = await supabase.auth.getUser(req.cookies["access_token"]);
-  // console.log(user);
-  console.log(req.cookies["access_token"]);
+  const accessToken = req.cookies["access_token"];
+  if (!accessToken) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const { data: user, error: getUserError } = await supabase.auth.getUser(accessToken);
+
+  if (getUserError) {
+    throw getUserError;
+  }
+
+  // Check if user is not logged in.
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  // To allow us to run db calls on behalf of the user, we need to use a client that is authenticated with the user's access token.
+  // As of supabase js 2.0, it is suggested we set the access token on the client directly. See https://supabase.com/docs/reference/javascript/next/release-notes#deprecated-setauth
+  // This will act as a temporary client to do the fetching on the server side.
+  const client = getSupabase(req.cookies["access_token"]);
+
+  // Fetch the user's todos.
+  const { error: getTodosError, data: todos } = await client.from("profiles").select("*");
+
+  if (getTodosError) {
+    throw getTodosError;
+  }
+
+  return {
+    props: {
+      user,
+      todos,
+    },
+  };
+
+  // console.log(req.cookies["access_token"]);
   // supabase.auth.setSession(req.cookies["access_token"]);
 
   // console.log(req.cookies["access_token"]);
-  const client = getSupabase(req.cookies["access_token"]);
-  console.log(await client.auth.getSession());
+  // const client = getSupabase(req.cookies["access_token"]);
+  // console.log(await client.auth.getSession());
 
   // const {
   //   data: { session },
@@ -96,12 +137,12 @@ export async function getServerSideProps({ req }) {
   // supabase.auth.setSession()
   // console.log(access_token);
 
-  return {
-    props: {
-      // todo: todo.data || null,
-      // user: session.user || null,
-    },
-  };
+  // return {
+  //   props: {
+  //     // todo: todo.data || null,
+  //     // user: session.user || null,
+  //   },
+  // };
 }
 
 export default Index;

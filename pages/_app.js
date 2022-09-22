@@ -11,9 +11,6 @@ const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     const { subscription } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("GGG");
-      console.log(event);
-      console.log(session);
       handleAuthChange(event, session);
     });
     return () => {

@@ -9,7 +9,6 @@ import { setCookie } from "cookies-next";
 /** @type {import("next").NextApiHandler} */
 export default async function handler(req, res) {
   // console.log(req.headers);
-  console.log("ABCC");
   if (req.method === "POST") {
     /**
      * References:
