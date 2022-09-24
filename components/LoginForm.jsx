@@ -1,43 +1,59 @@
-import { Button, Text, TextInput } from "@mantine/core";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { Button, Text, TextInput, Col, Stack, Alert, Group, Loader, Center } from "@mantine/core";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useForm } from "@mantine/form";
 import React from "react";
 
 export default function LoginForm() {
-  const [email, setEmail] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const { supabaseClient } = useSessionContext();
+  const [formState, setFormState] = React.useState("idle");
+  const form = useForm({
+    initialValues: {
+      email: "",
+    },
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+    },
+  });
 
-  const login = async () => {
-    setLoading(true);
-    const { user, error } = await supabaseClient.auth.signInWithOtp({
+  const login = async (email) => {
+    setFormState("loading");
+    const { error } = await supabaseClient.auth.signInWithOtp({
       email,
     });
     if (error) {
-      setErrorMessage(error?.message || "Unknown error!");
+      setFormState("error");
+      console.error(error);
+    } else {
+      setFormState("success");
     }
-    setLoading(false);
   };
 
   return (
-    <div className="flex flex-col ">
-      <div className="flex flex-row">
-        <TextInput
-          label="EMail"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.currentTarget.value);
-          }}
-        />
-        <Button onClick={login}>Login</Button>
-      </div>
-      {loading && <Text color="dimmed">Loading...</Text>}
-      {errorMessage && (
-        <div>
-          <Text align="center" size="sm" mt="xs" color="red">
-            {errorMessage}
-          </Text>
-        </div>
-      )}
-    </div>
+    <form
+      onSubmit={form.onSubmit(({ email }) => {
+        login(email);
+      })}
+    >
+      <Stack spacing="lg">
+        <TextInput label="EMail" {...form.getInputProps("email")} />
+
+        {formState === "error" && (
+          <Alert color="red" title="Error">
+            There was an error logging in.
+          </Alert>
+        )}
+        {formState === "success" && (
+          <Alert color="green" title="Success">
+            Check your email for a login link.
+          </Alert>
+        )}
+        <Group>
+          <Button disabled={formState === "loading"} type="submit">
+            Login
+          </Button>
+          {formState === "loading" && <Loader size="sm" />}
+        </Group>
+      </Stack>
+    </form>
   );
 }
