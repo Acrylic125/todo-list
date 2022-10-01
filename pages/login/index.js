@@ -1,5 +1,4 @@
-import { Center, Container, Text } from "@mantine/core";
-import { withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { Center, Text } from "@mantine/core";
 import React from "react";
 import LoginForm from "../../components/LoginForm";
 import Section from "../../components/Section";
