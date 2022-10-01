@@ -25,7 +25,14 @@ const Index = ({ todos }) => {
 export const getServerSideProps = withPageAuth({
   redirectTo: "/login",
   getServerSideProps: async ({ req, res }, supabaseClient) => {
-    const { data: todos } = await supabaseClient.from("todos").select("*");
+    const {
+      data: { user },
+      getUserError,
+    } = await supabaseClient.auth.getUser();
+    if (getUserError) {
+      throw getUserError;
+    }
+    const { data: todos } = await supabaseClient.from("todos").select("*").eq("user_id", user.id);
     return {
       props: {
         todos: todos || null,
