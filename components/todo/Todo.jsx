@@ -1,9 +1,13 @@
 import { Checkbox, Modal } from "@mantine/core";
+import moment from "moment/moment";
+// import momentDurationFormatSetup from "moment-duration-format";
 import { useState } from "react";
 import Section from "../Section";
 import EditTodoForm from "./EditTodoForm";
 
-export default function Todo({ defaultTitle, defaultCompleted, onUpdate, onDelete, className }) {
+// momentDurationFormatSetup(moment);
+
+export default function Todo({ defaultTitle, defaultCompleted, defaultCreatedAt, onUpdate, onDelete, className }) {
   const [title, setTitle] = useState(defaultTitle);
   const [completed, setCompleted] = useState(defaultCompleted);
   const [editing, setEditing] = useState(false);
@@ -55,7 +59,10 @@ export default function Todo({ defaultTitle, defaultCompleted, onUpdate, onDelet
                 update({ completed: event.currentTarget.checked });
               }}
             />
-            <h5>{title}</h5>
+            <div className="flex flex-row gap-4 items-center justify-between w-full">
+              <h5>{title}</h5>
+              <p className="whitespace-nowrap">{moment(defaultCreatedAt).format("MMM DD, YYYY")}</p>
+            </div>
           </div>
         </Section>
       </div>

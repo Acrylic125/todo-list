@@ -124,6 +124,7 @@ export default function Todos({ defaultTodos, style, className }) {
               }}
               defaultTitle={title}
               defaultCompleted={completed}
+              defaultCreatedAt={new Date(created_at)}
             />
           ))
       ) : (
