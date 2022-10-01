@@ -2,7 +2,7 @@
 -- PostgreSQL database cluster dump
 --
 
--- Started on 2022-10-01 10:58:08
+-- Started on 2022-10-01 19:51:51
 
 SET default_transaction_read_only = off;
 
@@ -146,7 +146,7 @@ GRANT supabase_storage_admin TO postgres GRANTED BY supabase_admin;
 -- Dumped from database version 14.1
 -- Dumped by pg_dump version 14.5
 
--- Started on 2022-10-01 10:58:09
+-- Started on 2022-10-01 19:51:52
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -159,7 +159,7 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
--- Completed on 2022-10-01 10:58:10
+-- Completed on 2022-10-01 19:51:53
 
 --
 -- PostgreSQL database dump complete
@@ -178,7 +178,7 @@ SET row_security = off;
 -- Dumped from database version 14.1
 -- Dumped by pg_dump version 14.5
 
--- Started on 2022-10-01 10:58:10
+-- Started on 2022-10-01 19:51:53
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -216,7 +216,7 @@ CREATE EXTENSION IF NOT EXISTS pg_graphql WITH SCHEMA extensions;
 
 
 --
--- TOC entry 3185 (class 0 OID 0)
+-- TOC entry 3203 (class 0 OID 0)
 -- Dependencies: 7
 -- Name: EXTENSION pg_graphql; Type: COMMENT; Schema: -; Owner: -
 --
@@ -257,7 +257,7 @@ CREATE EXTENSION IF NOT EXISTS pgsodium WITH SCHEMA pgsodium;
 
 
 --
--- TOC entry 3186 (class 0 OID 0)
+-- TOC entry 3204 (class 0 OID 0)
 -- Dependencies: 3
 -- Name: EXTENSION pgsodium; Type: COMMENT; Schema: -; Owner: -
 --
@@ -290,7 +290,7 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA extensions;
 
 
 --
--- TOC entry 3187 (class 0 OID 0)
+-- TOC entry 3205 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
 --
@@ -307,7 +307,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
 
 
 --
--- TOC entry 3188 (class 0 OID 0)
+-- TOC entry 3206 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
 --
@@ -324,7 +324,7 @@ CREATE EXTENSION IF NOT EXISTS pgjwt WITH SCHEMA extensions;
 
 
 --
--- TOC entry 3189 (class 0 OID 0)
+-- TOC entry 3207 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: EXTENSION pgjwt; Type: COMMENT; Schema: -; Owner: -
 --
@@ -341,7 +341,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
 
 
 --
--- TOC entry 3190 (class 0 OID 0)
+-- TOC entry 3208 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: -
 --
@@ -350,7 +350,7 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 
 --
--- TOC entry 411 (class 1255 OID 16718)
+-- TOC entry 414 (class 1255 OID 16718)
 -- Name: email(); Type: FUNCTION; Schema: auth; Owner: -
 --
 
@@ -366,8 +366,8 @@ $$;
 
 
 --
--- TOC entry 3191 (class 0 OID 0)
--- Dependencies: 411
+-- TOC entry 3209 (class 0 OID 0)
+-- Dependencies: 414
 -- Name: FUNCTION email(); Type: COMMENT; Schema: auth; Owner: -
 --
 
@@ -375,7 +375,7 @@ COMMENT ON FUNCTION auth.email() IS 'Deprecated. Use auth.jwt() -> ''email'' ins
 
 
 --
--- TOC entry 563 (class 1255 OID 17690)
+-- TOC entry 566 (class 1255 OID 17690)
 -- Name: jwt(); Type: FUNCTION; Schema: auth; Owner: -
 --
 
@@ -391,7 +391,7 @@ $$;
 
 
 --
--- TOC entry 393 (class 1255 OID 16717)
+-- TOC entry 396 (class 1255 OID 16717)
 -- Name: role(); Type: FUNCTION; Schema: auth; Owner: -
 --
 
@@ -407,8 +407,8 @@ $$;
 
 
 --
--- TOC entry 3192 (class 0 OID 0)
--- Dependencies: 393
+-- TOC entry 3210 (class 0 OID 0)
+-- Dependencies: 396
 -- Name: FUNCTION role(); Type: COMMENT; Schema: auth; Owner: -
 --
 
@@ -416,7 +416,7 @@ COMMENT ON FUNCTION auth.role() IS 'Deprecated. Use auth.jwt() -> ''role'' inste
 
 
 --
--- TOC entry 392 (class 1255 OID 16716)
+-- TOC entry 395 (class 1255 OID 16716)
 -- Name: uid(); Type: FUNCTION; Schema: auth; Owner: -
 --
 
@@ -432,8 +432,8 @@ $$;
 
 
 --
--- TOC entry 3193 (class 0 OID 0)
--- Dependencies: 392
+-- TOC entry 3211 (class 0 OID 0)
+-- Dependencies: 395
 -- Name: FUNCTION uid(); Type: COMMENT; Schema: auth; Owner: -
 --
 
@@ -441,7 +441,7 @@ COMMENT ON FUNCTION auth.uid() IS 'Deprecated. Use auth.jwt() -> ''sub'' instead
 
 
 --
--- TOC entry 564 (class 1255 OID 17742)
+-- TOC entry 567 (class 1255 OID 17742)
 -- Name: user_id(); Type: FUNCTION; Schema: auth; Owner: -
 --
 
@@ -453,7 +453,7 @@ $$;
 
 
 --
--- TOC entry 453 (class 1255 OID 16775)
+-- TOC entry 456 (class 1255 OID 16775)
 -- Name: grant_pg_cron_access(); Type: FUNCTION; Schema: extensions; Owner: -
 --
 
@@ -494,8 +494,8 @@ $$;
 
 
 --
--- TOC entry 3194 (class 0 OID 0)
--- Dependencies: 453
+-- TOC entry 3212 (class 0 OID 0)
+-- Dependencies: 456
 -- Name: FUNCTION grant_pg_cron_access(); Type: COMMENT; Schema: extensions; Owner: -
 --
 
@@ -503,7 +503,7 @@ COMMENT ON FUNCTION extensions.grant_pg_cron_access() IS 'Grants access to pg_cr
 
 
 --
--- TOC entry 459 (class 1255 OID 16796)
+-- TOC entry 462 (class 1255 OID 16796)
 -- Name: grant_pg_graphql_access(); Type: FUNCTION; Schema: extensions; Owner: -
 --
 
@@ -559,8 +559,8 @@ $_$;
 
 
 --
--- TOC entry 3195 (class 0 OID 0)
--- Dependencies: 459
+-- TOC entry 3213 (class 0 OID 0)
+-- Dependencies: 462
 -- Name: FUNCTION grant_pg_graphql_access(); Type: COMMENT; Schema: extensions; Owner: -
 --
 
@@ -568,7 +568,7 @@ COMMENT ON FUNCTION extensions.grant_pg_graphql_access() IS 'Grants access to pg
 
 
 --
--- TOC entry 454 (class 1255 OID 16777)
+-- TOC entry 457 (class 1255 OID 16777)
 -- Name: grant_pg_net_access(); Type: FUNCTION; Schema: extensions; Owner: -
 --
 
@@ -616,8 +616,8 @@ $$;
 
 
 --
--- TOC entry 3196 (class 0 OID 0)
--- Dependencies: 454
+-- TOC entry 3214 (class 0 OID 0)
+-- Dependencies: 457
 -- Name: FUNCTION grant_pg_net_access(); Type: COMMENT; Schema: extensions; Owner: -
 --
 
@@ -625,7 +625,7 @@ COMMENT ON FUNCTION extensions.grant_pg_net_access() IS 'Grants access to pg_net
 
 
 --
--- TOC entry 455 (class 1255 OID 16787)
+-- TOC entry 458 (class 1255 OID 16787)
 -- Name: pgrst_ddl_watch(); Type: FUNCTION; Schema: extensions; Owner: -
 --
 
@@ -659,7 +659,7 @@ END; $$;
 
 
 --
--- TOC entry 456 (class 1255 OID 16788)
+-- TOC entry 459 (class 1255 OID 16788)
 -- Name: pgrst_drop_watch(); Type: FUNCTION; Schema: extensions; Owner: -
 --
 
@@ -691,7 +691,7 @@ END; $$;
 
 
 --
--- TOC entry 457 (class 1255 OID 16798)
+-- TOC entry 460 (class 1255 OID 16798)
 -- Name: set_graphql_placeholder(); Type: FUNCTION; Schema: extensions; Owner: -
 --
 
@@ -749,8 +749,8 @@ $_$;
 
 
 --
--- TOC entry 3197 (class 0 OID 0)
--- Dependencies: 457
+-- TOC entry 3215 (class 0 OID 0)
+-- Dependencies: 460
 -- Name: FUNCTION set_graphql_placeholder(); Type: COMMENT; Schema: extensions; Owner: -
 --
 
@@ -758,7 +758,7 @@ COMMENT ON FUNCTION extensions.set_graphql_placeholder() IS 'Reintroduces placeh
 
 
 --
--- TOC entry 267 (class 1255 OID 16386)
+-- TOC entry 270 (class 1255 OID 16386)
 -- Name: get_auth(text); Type: FUNCTION; Schema: pgbouncer; Owner: -
 --
 
@@ -776,7 +776,24 @@ $$;
 
 
 --
--- TOC entry 400 (class 1255 OID 16764)
+-- TOC entry 568 (class 1255 OID 17757)
+-- Name: handle_new_user(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.handle_new_user() RETURNS trigger
+    LANGUAGE plpgsql SECURITY DEFINER
+    SET search_path TO 'public'
+    AS $$
+begin
+insert into public.profiles (id, username, avatar_url)
+  values (new.id, new.raw_user_meta_data ->> 'user_name', new.raw_user_meta_data ->> 'avatar_url');
+  return new;
+end;
+$$;
+
+
+--
+-- TOC entry 403 (class 1255 OID 16764)
 -- Name: extension(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -796,7 +813,7 @@ $$;
 
 
 --
--- TOC entry 395 (class 1255 OID 16763)
+-- TOC entry 398 (class 1255 OID 16763)
 -- Name: filename(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -813,7 +830,7 @@ $$;
 
 
 --
--- TOC entry 394 (class 1255 OID 16762)
+-- TOC entry 397 (class 1255 OID 16762)
 -- Name: foldername(text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -830,7 +847,7 @@ $$;
 
 
 --
--- TOC entry 560 (class 1255 OID 17638)
+-- TOC entry 563 (class 1255 OID 17638)
 -- Name: get_size_by_bucket(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -847,7 +864,7 @@ $$;
 
 
 --
--- TOC entry 561 (class 1255 OID 17640)
+-- TOC entry 564 (class 1255 OID 17640)
 -- Name: search(text, text, integer, integer, integer, text, text, text); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -917,7 +934,7 @@ $_$;
 
 
 --
--- TOC entry 562 (class 1255 OID 17641)
+-- TOC entry 565 (class 1255 OID 17641)
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: storage; Owner: -
 --
 
@@ -950,7 +967,7 @@ CREATE TABLE auth.audit_log_entries (
 
 
 --
--- TOC entry 3198 (class 0 OID 0)
+-- TOC entry 3216 (class 0 OID 0)
 -- Dependencies: 241
 -- Name: TABLE audit_log_entries; Type: COMMENT; Schema: auth; Owner: -
 --
@@ -975,7 +992,7 @@ CREATE TABLE auth.identities (
 
 
 --
--- TOC entry 3199 (class 0 OID 0)
+-- TOC entry 3217 (class 0 OID 0)
 -- Dependencies: 261
 -- Name: TABLE identities; Type: COMMENT; Schema: auth; Owner: -
 --
@@ -998,7 +1015,7 @@ CREATE TABLE auth.instances (
 
 
 --
--- TOC entry 3200 (class 0 OID 0)
+-- TOC entry 3218 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: TABLE instances; Type: COMMENT; Schema: auth; Owner: -
 --
@@ -1025,7 +1042,7 @@ CREATE TABLE auth.refresh_tokens (
 
 
 --
--- TOC entry 3201 (class 0 OID 0)
+-- TOC entry 3219 (class 0 OID 0)
 -- Dependencies: 239
 -- Name: TABLE refresh_tokens; Type: COMMENT; Schema: auth; Owner: -
 --
@@ -1047,7 +1064,7 @@ CREATE SEQUENCE auth.refresh_tokens_id_seq
 
 
 --
--- TOC entry 3202 (class 0 OID 0)
+-- TOC entry 3220 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: refresh_tokens_id_seq; Type: SEQUENCE OWNED BY; Schema: auth; Owner: -
 --
@@ -1066,7 +1083,7 @@ CREATE TABLE auth.schema_migrations (
 
 
 --
--- TOC entry 3203 (class 0 OID 0)
+-- TOC entry 3221 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: TABLE schema_migrations; Type: COMMENT; Schema: auth; Owner: -
 --
@@ -1088,7 +1105,7 @@ CREATE TABLE auth.sessions (
 
 
 --
--- TOC entry 3204 (class 0 OID 0)
+-- TOC entry 3222 (class 0 OID 0)
 -- Dependencies: 262
 -- Name: TABLE sessions; Type: COMMENT; Schema: auth; Owner: -
 --
@@ -1139,7 +1156,7 @@ CREATE TABLE auth.users (
 
 
 --
--- TOC entry 3205 (class 0 OID 0)
+-- TOC entry 3223 (class 0 OID 0)
 -- Dependencies: 237
 -- Name: TABLE users; Type: COMMENT; Schema: auth; Owner: -
 --
@@ -1163,6 +1180,35 @@ CREATE TABLE public.profiles (
 
 
 --
+-- TOC entry 266 (class 1259 OID 17759)
+-- Name: user_roles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_roles (
+    id bigint NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    user_id uuid NOT NULL,
+    role character varying
+);
+
+
+--
+-- TOC entry 268 (class 1259 OID 17784)
+-- Name: profile_with_roles; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.profile_with_roles AS
+ SELECT p.id,
+    p.updated_at,
+    p.username,
+    p.avatar_url,
+    p.website,
+    ur.role
+   FROM (public.profiles p
+     LEFT JOIN public.user_roles ur ON ((p.id = ur.user_id)));
+
+
+--
 -- TOC entry 264 (class 1259 OID 17730)
 -- Name: todos; Type: TABLE; Schema: public; Owner: -
 --
@@ -1177,7 +1223,7 @@ CREATE TABLE public.todos (
 
 
 --
--- TOC entry 3206 (class 0 OID 0)
+-- TOC entry 3224 (class 0 OID 0)
 -- Dependencies: 264
 -- Name: TABLE todos; Type: COMMENT; Schema: public; Owner: -
 --
@@ -1192,6 +1238,21 @@ COMMENT ON TABLE public.todos IS 'User todos';
 
 ALTER TABLE public.todos ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
     SEQUENCE NAME public.todo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 267 (class 1259 OID 17762)
+-- Name: user_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.user_roles ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME public.user_roles_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1247,7 +1308,7 @@ CREATE TABLE storage.objects (
 
 
 --
--- TOC entry 2906 (class 2604 OID 16688)
+-- TOC entry 2916 (class 2604 OID 16688)
 -- Name: refresh_tokens id; Type: DEFAULT; Schema: auth; Owner: -
 --
 
@@ -1255,7 +1316,7 @@ ALTER TABLE ONLY auth.refresh_tokens ALTER COLUMN id SET DEFAULT nextval('auth.r
 
 
 --
--- TOC entry 2958 (class 2606 OID 16709)
+-- TOC entry 2969 (class 2606 OID 16709)
 -- Name: audit_log_entries audit_log_entries_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1264,7 +1325,7 @@ ALTER TABLE ONLY auth.audit_log_entries
 
 
 --
--- TOC entry 2994 (class 2606 OID 17668)
+-- TOC entry 3005 (class 2606 OID 17668)
 -- Name: identities identities_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1273,7 +1334,7 @@ ALTER TABLE ONLY auth.identities
 
 
 --
--- TOC entry 2956 (class 2606 OID 16702)
+-- TOC entry 2967 (class 2606 OID 16702)
 -- Name: instances instances_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1282,7 +1343,7 @@ ALTER TABLE ONLY auth.instances
 
 
 --
--- TOC entry 2951 (class 2606 OID 16692)
+-- TOC entry 2962 (class 2606 OID 16692)
 -- Name: refresh_tokens refresh_tokens_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1291,7 +1352,7 @@ ALTER TABLE ONLY auth.refresh_tokens
 
 
 --
--- TOC entry 2954 (class 2606 OID 17675)
+-- TOC entry 2965 (class 2606 OID 17675)
 -- Name: refresh_tokens refresh_tokens_token_unique; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1300,7 +1361,7 @@ ALTER TABLE ONLY auth.refresh_tokens
 
 
 --
--- TOC entry 2961 (class 2606 OID 16715)
+-- TOC entry 2972 (class 2606 OID 16715)
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1309,7 +1370,7 @@ ALTER TABLE ONLY auth.schema_migrations
 
 
 --
--- TOC entry 2997 (class 2606 OID 17696)
+-- TOC entry 3008 (class 2606 OID 17696)
 -- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1318,7 +1379,7 @@ ALTER TABLE ONLY auth.sessions
 
 
 --
--- TOC entry 2940 (class 2606 OID 16681)
+-- TOC entry 2951 (class 2606 OID 16681)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1327,7 +1388,7 @@ ALTER TABLE ONLY auth.users
 
 
 --
--- TOC entry 2944 (class 2606 OID 17647)
+-- TOC entry 2955 (class 2606 OID 17647)
 -- Name: users users_phone_key; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1336,7 +1397,7 @@ ALTER TABLE ONLY auth.users
 
 
 --
--- TOC entry 2946 (class 2606 OID 16679)
+-- TOC entry 2957 (class 2606 OID 16679)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1345,7 +1406,7 @@ ALTER TABLE ONLY auth.users
 
 
 --
--- TOC entry 2999 (class 2606 OID 17714)
+-- TOC entry 3010 (class 2606 OID 17714)
 -- Name: profiles profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1354,7 +1415,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 3001 (class 2606 OID 17716)
+-- TOC entry 3012 (class 2606 OID 17716)
 -- Name: profiles profiles_username_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1363,7 +1424,7 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 3003 (class 2606 OID 17741)
+-- TOC entry 3014 (class 2606 OID 17741)
 -- Name: todos todo_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1372,7 +1433,25 @@ ALTER TABLE ONLY public.todos
 
 
 --
--- TOC entry 2964 (class 2606 OID 16732)
+-- TOC entry 3016 (class 2606 OID 17772)
+-- Name: user_roles user_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT user_roles_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3018 (class 2606 OID 17768)
+-- Name: user_roles user_roles_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT user_roles_user_id_key UNIQUE (user_id);
+
+
+--
+-- TOC entry 2975 (class 2606 OID 16732)
 -- Name: buckets buckets_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -1381,7 +1460,7 @@ ALTER TABLE ONLY storage.buckets
 
 
 --
--- TOC entry 2970 (class 2606 OID 16773)
+-- TOC entry 2981 (class 2606 OID 16773)
 -- Name: migrations migrations_name_key; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -1390,7 +1469,7 @@ ALTER TABLE ONLY storage.migrations
 
 
 --
--- TOC entry 2972 (class 2606 OID 16771)
+-- TOC entry 2983 (class 2606 OID 16771)
 -- Name: migrations migrations_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -1399,7 +1478,7 @@ ALTER TABLE ONLY storage.migrations
 
 
 --
--- TOC entry 2968 (class 2606 OID 16749)
+-- TOC entry 2979 (class 2606 OID 16749)
 -- Name: objects objects_pkey; Type: CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -1408,7 +1487,7 @@ ALTER TABLE ONLY storage.objects
 
 
 --
--- TOC entry 2959 (class 1259 OID 16710)
+-- TOC entry 2970 (class 1259 OID 16710)
 -- Name: audit_logs_instance_id_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1416,7 +1495,7 @@ CREATE INDEX audit_logs_instance_id_idx ON auth.audit_log_entries USING btree (i
 
 
 --
--- TOC entry 2934 (class 1259 OID 17685)
+-- TOC entry 2945 (class 1259 OID 17685)
 -- Name: confirmation_token_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1424,7 +1503,7 @@ CREATE UNIQUE INDEX confirmation_token_idx ON auth.users USING btree (confirmati
 
 
 --
--- TOC entry 2935 (class 1259 OID 17687)
+-- TOC entry 2946 (class 1259 OID 17687)
 -- Name: email_change_token_current_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1432,7 +1511,7 @@ CREATE UNIQUE INDEX email_change_token_current_idx ON auth.users USING btree (em
 
 
 --
--- TOC entry 2936 (class 1259 OID 17688)
+-- TOC entry 2947 (class 1259 OID 17688)
 -- Name: email_change_token_new_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1440,7 +1519,7 @@ CREATE UNIQUE INDEX email_change_token_new_idx ON auth.users USING btree (email_
 
 
 --
--- TOC entry 2995 (class 1259 OID 17682)
+-- TOC entry 3006 (class 1259 OID 17682)
 -- Name: identities_user_id_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1448,7 +1527,7 @@ CREATE INDEX identities_user_id_idx ON auth.identities USING btree (user_id);
 
 
 --
--- TOC entry 2937 (class 1259 OID 17689)
+-- TOC entry 2948 (class 1259 OID 17689)
 -- Name: reauthentication_token_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1456,7 +1535,7 @@ CREATE UNIQUE INDEX reauthentication_token_idx ON auth.users USING btree (reauth
 
 
 --
--- TOC entry 2938 (class 1259 OID 17686)
+-- TOC entry 2949 (class 1259 OID 17686)
 -- Name: recovery_token_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1464,7 +1543,7 @@ CREATE UNIQUE INDEX recovery_token_idx ON auth.users USING btree (recovery_token
 
 
 --
--- TOC entry 2947 (class 1259 OID 16693)
+-- TOC entry 2958 (class 1259 OID 16693)
 -- Name: refresh_tokens_instance_id_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1472,7 +1551,7 @@ CREATE INDEX refresh_tokens_instance_id_idx ON auth.refresh_tokens USING btree (
 
 
 --
--- TOC entry 2948 (class 1259 OID 16694)
+-- TOC entry 2959 (class 1259 OID 16694)
 -- Name: refresh_tokens_instance_id_user_id_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1480,7 +1559,7 @@ CREATE INDEX refresh_tokens_instance_id_user_id_idx ON auth.refresh_tokens USING
 
 
 --
--- TOC entry 2949 (class 1259 OID 17681)
+-- TOC entry 2960 (class 1259 OID 17681)
 -- Name: refresh_tokens_parent_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1488,7 +1567,7 @@ CREATE INDEX refresh_tokens_parent_idx ON auth.refresh_tokens USING btree (paren
 
 
 --
--- TOC entry 2952 (class 1259 OID 16695)
+-- TOC entry 2963 (class 1259 OID 16695)
 -- Name: refresh_tokens_token_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1496,7 +1575,7 @@ CREATE INDEX refresh_tokens_token_idx ON auth.refresh_tokens USING btree (token)
 
 
 --
--- TOC entry 2941 (class 1259 OID 17683)
+-- TOC entry 2952 (class 1259 OID 17683)
 -- Name: users_instance_id_email_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1504,7 +1583,7 @@ CREATE INDEX users_instance_id_email_idx ON auth.users USING btree (instance_id,
 
 
 --
--- TOC entry 2942 (class 1259 OID 16683)
+-- TOC entry 2953 (class 1259 OID 16683)
 -- Name: users_instance_id_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
@@ -1512,7 +1591,7 @@ CREATE INDEX users_instance_id_idx ON auth.users USING btree (instance_id);
 
 
 --
--- TOC entry 2962 (class 1259 OID 16738)
+-- TOC entry 2973 (class 1259 OID 16738)
 -- Name: bname; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -1520,7 +1599,7 @@ CREATE UNIQUE INDEX bname ON storage.buckets USING btree (name);
 
 
 --
--- TOC entry 2965 (class 1259 OID 16760)
+-- TOC entry 2976 (class 1259 OID 16760)
 -- Name: bucketid_objname; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -1528,7 +1607,7 @@ CREATE UNIQUE INDEX bucketid_objname ON storage.objects USING btree (bucket_id, 
 
 
 --
--- TOC entry 2966 (class 1259 OID 16761)
+-- TOC entry 2977 (class 1259 OID 16761)
 -- Name: name_prefix_search; Type: INDEX; Schema: storage; Owner: -
 --
 
@@ -1536,7 +1615,15 @@ CREATE INDEX name_prefix_search ON storage.objects USING btree (name text_patter
 
 
 --
--- TOC entry 3012 (class 2620 OID 17642)
+-- TOC entry 3028 (class 2620 OID 17758)
+-- Name: users on_auth_user_created; Type: TRIGGER; Schema: auth; Owner: -
+--
+
+CREATE TRIGGER on_auth_user_created AFTER INSERT ON auth.users FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+
+--
+-- TOC entry 3029 (class 2620 OID 17642)
 -- Name: objects update_objects_updated_at; Type: TRIGGER; Schema: storage; Owner: -
 --
 
@@ -1544,7 +1631,7 @@ CREATE TRIGGER update_objects_updated_at BEFORE UPDATE ON storage.objects FOR EA
 
 
 --
--- TOC entry 3009 (class 2606 OID 17669)
+-- TOC entry 3024 (class 2606 OID 17669)
 -- Name: identities identities_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1553,7 +1640,7 @@ ALTER TABLE ONLY auth.identities
 
 
 --
--- TOC entry 3004 (class 2606 OID 17676)
+-- TOC entry 3019 (class 2606 OID 17676)
 -- Name: refresh_tokens refresh_tokens_parent_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1562,7 +1649,7 @@ ALTER TABLE ONLY auth.refresh_tokens
 
 
 --
--- TOC entry 3005 (class 2606 OID 17702)
+-- TOC entry 3020 (class 2606 OID 17702)
 -- Name: refresh_tokens refresh_tokens_session_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1571,7 +1658,7 @@ ALTER TABLE ONLY auth.refresh_tokens
 
 
 --
--- TOC entry 3010 (class 2606 OID 17697)
+-- TOC entry 3025 (class 2606 OID 17697)
 -- Name: sessions sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: -
 --
 
@@ -1580,7 +1667,7 @@ ALTER TABLE ONLY auth.sessions
 
 
 --
--- TOC entry 3011 (class 2606 OID 17717)
+-- TOC entry 3026 (class 2606 OID 17717)
 -- Name: profiles profiles_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1589,7 +1676,16 @@ ALTER TABLE ONLY public.profiles
 
 
 --
--- TOC entry 3006 (class 2606 OID 16733)
+-- TOC entry 3027 (class 2606 OID 17779)
+-- Name: user_roles user_roles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_roles
+    ADD CONSTRAINT user_roles_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.profiles(id);
+
+
+--
+-- TOC entry 3021 (class 2606 OID 16733)
 -- Name: buckets buckets_owner_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -1598,7 +1694,7 @@ ALTER TABLE ONLY storage.buckets
 
 
 --
--- TOC entry 3007 (class 2606 OID 16750)
+-- TOC entry 3022 (class 2606 OID 16750)
 -- Name: objects objects_bucketId_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -1607,7 +1703,7 @@ ALTER TABLE ONLY storage.objects
 
 
 --
--- TOC entry 3008 (class 2606 OID 16755)
+-- TOC entry 3023 (class 2606 OID 16755)
 -- Name: objects objects_owner_fkey; Type: FK CONSTRAINT; Schema: storage; Owner: -
 --
 
@@ -1616,15 +1712,17 @@ ALTER TABLE ONLY storage.objects
 
 
 --
--- TOC entry 3175 (class 3256 OID 17722)
--- Name: profiles Public profiles are viewable by everyone.; Type: POLICY; Schema: public; Owner: -
+-- TOC entry 3195 (class 3256 OID 17722)
+-- Name: profiles Profiles are viewable by the user or user with admin role; Type: POLICY; Schema: public; Owner: -
 --
 
-CREATE POLICY "Public profiles are viewable by everyone." ON public.profiles FOR SELECT TO authenticated USING ((auth.uid() = id));
+CREATE POLICY "Profiles are viewable by the user or user with admin role" ON public.profiles FOR SELECT TO authenticated USING (((auth.uid() = id) OR (EXISTS ( SELECT 1
+   FROM public.user_roles
+  WHERE ((user_roles.user_id = auth.uid()) AND ((user_roles.role)::text = 'admin'::text))))));
 
 
 --
--- TOC entry 3176 (class 3256 OID 17754)
+-- TOC entry 3193 (class 3256 OID 17754)
 -- Name: todos Users can delete their own todos; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -1632,7 +1730,7 @@ CREATE POLICY "Users can delete their own todos" ON public.todos FOR DELETE TO a
 
 
 --
--- TOC entry 3168 (class 3256 OID 17723)
+-- TOC entry 3186 (class 3256 OID 17723)
 -- Name: profiles Users can insert their own profile.; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -1640,7 +1738,7 @@ CREATE POLICY "Users can insert their own profile." ON public.profiles FOR INSER
 
 
 --
--- TOC entry 3173 (class 3256 OID 17744)
+-- TOC entry 3191 (class 3256 OID 17744)
 -- Name: todos Users can insert todos; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -1648,7 +1746,7 @@ CREATE POLICY "Users can insert todos" ON public.todos FOR INSERT TO authenticat
 
 
 --
--- TOC entry 3177 (class 3256 OID 17743)
+-- TOC entry 3194 (class 3256 OID 17743)
 -- Name: todos Users can select their own todos; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -1656,7 +1754,7 @@ CREATE POLICY "Users can select their own todos" ON public.todos FOR SELECT TO a
 
 
 --
--- TOC entry 3169 (class 3256 OID 17724)
+-- TOC entry 3187 (class 3256 OID 17724)
 -- Name: profiles Users can update own profile.; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -1664,7 +1762,7 @@ CREATE POLICY "Users can update own profile." ON public.profiles FOR UPDATE USIN
 
 
 --
--- TOC entry 3174 (class 3256 OID 17753)
+-- TOC entry 3192 (class 3256 OID 17753)
 -- Name: todos Users can update their todos; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -1672,7 +1770,7 @@ CREATE POLICY "Users can update their todos" ON public.todos FOR UPDATE TO authe
 
 
 --
--- TOC entry 3166 (class 0 OID 17707)
+-- TOC entry 3184 (class 0 OID 17707)
 -- Dependencies: 263
 -- Name: profiles; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -1680,7 +1778,7 @@ CREATE POLICY "Users can update their todos" ON public.todos FOR UPDATE TO authe
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 3167 (class 0 OID 17730)
+-- TOC entry 3185 (class 0 OID 17730)
 -- Dependencies: 264
 -- Name: todos; Type: ROW SECURITY; Schema: public; Owner: -
 --
@@ -1688,7 +1786,7 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.todos ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 3172 (class 3256 OID 17729)
+-- TOC entry 3190 (class 3256 OID 17729)
 -- Name: objects Anyone can update an avatar.; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -1696,7 +1794,7 @@ CREATE POLICY "Anyone can update an avatar." ON storage.objects FOR UPDATE WITH 
 
 
 --
--- TOC entry 3171 (class 3256 OID 17728)
+-- TOC entry 3189 (class 3256 OID 17728)
 -- Name: objects Anyone can upload an avatar.; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -1704,7 +1802,7 @@ CREATE POLICY "Anyone can upload an avatar." ON storage.objects FOR INSERT WITH 
 
 
 --
--- TOC entry 3170 (class 3256 OID 17727)
+-- TOC entry 3188 (class 3256 OID 17727)
 -- Name: objects Avatar images are publicly accessible.; Type: POLICY; Schema: storage; Owner: -
 --
 
@@ -1712,7 +1810,7 @@ CREATE POLICY "Avatar images are publicly accessible." ON storage.objects FOR SE
 
 
 --
--- TOC entry 3163 (class 0 OID 16724)
+-- TOC entry 3181 (class 0 OID 16724)
 -- Dependencies: 243
 -- Name: buckets; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -1720,7 +1818,7 @@ CREATE POLICY "Avatar images are publicly accessible." ON storage.objects FOR SE
 ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 3165 (class 0 OID 16766)
+-- TOC entry 3183 (class 0 OID 16766)
 -- Dependencies: 245
 -- Name: migrations; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -1728,7 +1826,7 @@ ALTER TABLE storage.buckets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.migrations ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 3164 (class 0 OID 16739)
+-- TOC entry 3182 (class 0 OID 16739)
 -- Dependencies: 244
 -- Name: objects; Type: ROW SECURITY; Schema: storage; Owner: -
 --
@@ -1736,7 +1834,7 @@ ALTER TABLE storage.migrations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 
 --
--- TOC entry 3178 (class 6104 OID 17725)
+-- TOC entry 3196 (class 6104 OID 17725)
 -- Name: supabase_realtime; Type: PUBLICATION; Schema: -; Owner: -
 --
 
@@ -1744,7 +1842,7 @@ CREATE PUBLICATION supabase_realtime WITH (publish = 'insert, update, delete, tr
 
 
 --
--- TOC entry 3179 (class 6106 OID 17726)
+-- TOC entry 3197 (class 6106 OID 17726)
 -- Name: supabase_realtime profiles; Type: PUBLICATION TABLE; Schema: public; Owner: -
 --
 
@@ -1752,7 +1850,7 @@ ALTER PUBLICATION supabase_realtime ADD TABLE ONLY public.profiles;
 
 
 --
--- TOC entry 2886 (class 3466 OID 16799)
+-- TOC entry 2896 (class 3466 OID 16799)
 -- Name: issue_graphql_placeholder; Type: EVENT TRIGGER; Schema: -; Owner: -
 --
 
@@ -1762,7 +1860,7 @@ CREATE EVENT TRIGGER issue_graphql_placeholder ON sql_drop
 
 
 --
--- TOC entry 2883 (class 3466 OID 16776)
+-- TOC entry 2893 (class 3466 OID 16776)
 -- Name: issue_pg_cron_access; Type: EVENT TRIGGER; Schema: -; Owner: -
 --
 
@@ -1772,7 +1870,7 @@ CREATE EVENT TRIGGER issue_pg_cron_access ON ddl_command_end
 
 
 --
--- TOC entry 2885 (class 3466 OID 16797)
+-- TOC entry 2895 (class 3466 OID 16797)
 -- Name: issue_pg_graphql_access; Type: EVENT TRIGGER; Schema: -; Owner: -
 --
 
@@ -1782,7 +1880,7 @@ CREATE EVENT TRIGGER issue_pg_graphql_access ON ddl_command_end
 
 
 --
--- TOC entry 2884 (class 3466 OID 16778)
+-- TOC entry 2894 (class 3466 OID 16778)
 -- Name: issue_pg_net_access; Type: EVENT TRIGGER; Schema: -; Owner: -
 --
 
@@ -1792,7 +1890,7 @@ CREATE EVENT TRIGGER issue_pg_net_access ON ddl_command_end
 
 
 --
--- TOC entry 2887 (class 3466 OID 16800)
+-- TOC entry 2897 (class 3466 OID 16800)
 -- Name: pgrst_ddl_watch; Type: EVENT TRIGGER; Schema: -; Owner: -
 --
 
@@ -1801,7 +1899,7 @@ CREATE EVENT TRIGGER pgrst_ddl_watch ON ddl_command_end
 
 
 --
--- TOC entry 2888 (class 3466 OID 16801)
+-- TOC entry 2898 (class 3466 OID 16801)
 -- Name: pgrst_drop_watch; Type: EVENT TRIGGER; Schema: -; Owner: -
 --
 
@@ -1809,13 +1907,13 @@ CREATE EVENT TRIGGER pgrst_drop_watch ON sql_drop
    EXECUTE FUNCTION extensions.pgrst_drop_watch();
 
 
--- Completed on 2022-10-01 10:58:15
+-- Completed on 2022-10-01 19:51:59
 
 --
 -- PostgreSQL database dump complete
 --
 
--- Completed on 2022-10-01 10:58:15
+-- Completed on 2022-10-01 19:52:00
 
 --
 -- PostgreSQL database cluster dump complete
