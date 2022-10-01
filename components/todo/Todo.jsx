@@ -1,11 +1,8 @@
 import { Checkbox, Modal } from "@mantine/core";
 import moment from "moment/moment";
-// import momentDurationFormatSetup from "moment-duration-format";
 import { useState } from "react";
 import Section from "../Section";
 import EditTodoForm from "./EditTodoForm";
-
-// momentDurationFormatSetup(moment);
 
 export default function Todo({ defaultTitle, defaultCompleted, defaultCreatedAt, onUpdate, onDelete, className }) {
   const [title, setTitle] = useState(defaultTitle);
