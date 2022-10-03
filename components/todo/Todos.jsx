@@ -10,13 +10,6 @@ export default function Todos({ defaultTodos, style, className }) {
   const { supabaseClient } = useSessionContext();
   const [todos, setTodos] = useState(defaultTodos);
   const queryClient = useQueryClient();
-  const fetchTodos = async () => {
-    const { data, error } = await supabaseClient.from("todos").select("*");
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
-  };
   const { mutate: createTodo } = useMutation({
     mutationFn: async ({ todo }) => {
       const {
@@ -33,10 +26,6 @@ export default function Todos({ defaultTodos, style, className }) {
       const { data, error } = await supabaseClient.from("todos").insert({ title: todo, user_id: user.id });
       if (error) throw new Error(error.message);
       return data;
-    },
-    onSuccess: async () => {
-      const fetched = await fetchTodos();
-      setTodos(fetched);
     },
   });
   const { mutate: updateTodo } = useMutation(
