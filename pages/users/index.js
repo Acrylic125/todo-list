@@ -1,14 +1,16 @@
-import { withPageAuth } from "@supabase/auth-helpers-nextjs";
-import { Alert, Button, Center, Group, Modal, Popover, Stack, Table, Text, Textarea } from "@mantine/core";
-import React, { useState } from "react";
-import Section from "../../components/Section";
-import { FaEllipsisV } from "react-icons/fa";
-import { useForm } from "@mantine/form";
+import { Alert, Button, Center, Modal, Popover, Stack, Table, Text, Textarea } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
+import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { useMutation, useQueryClient } from "react-query";
 import { useSessionContext } from "@supabase/auth-helpers-react";
-import withPageBanProtect from "../../utils/withPageAuthWrap";
+import moment from "moment";
+import React, { useState } from "react";
+import { FaEllipsisV } from "react-icons/fa";
+import { useMutation, useQueryClient } from "react-query";
+import Section from "../../components/Section";
+import banProtected from "../../utils/banProtected";
+import roleRequired from "../../utils/roleRequired";
+import withPageAuthWrap from "../../utils/withPageAuthWrap";
 
 function BanUserForm({ isLoading, onBan }) {
   const form = useForm({
@@ -26,7 +28,7 @@ function BanUserForm({ isLoading, onBan }) {
     <form
       onSubmit={form.onSubmit(({ expires, time, reason }) => {
         onBan({
-          expires: new Date(expires.getTime() + (time.getHours() * 60 + time.getMinutes()) * 60000),
+          expires: moment(expires).set("hours", time.getHours()).set("minutes", time.getMinutes()).toDate(),
           reason,
         });
       })}
@@ -166,12 +168,9 @@ function UserPopover({ onBan, profileId }) {
 }
 
 export default function Users({ defaultProfiles }) {
-  const { supabaseClient } = useSessionContext();
-  const queryClient = useQueryClient();
   const [profiles, setProfiles] = useState(defaultProfiles);
-  console.log(profiles);
 
-  const rows = profiles.map((profile) => {
+  const rows = profiles?.map((profile) => {
     return (
       <tr key={profile.id}>
         <td>{profile.id}</td>
@@ -188,7 +187,7 @@ export default function Users({ defaultProfiles }) {
 
   return (
     <Center>
-      <Section className="overflow-x-scroll w-3/4 max-w-7xl">
+      <Section className="overflow-x-auto w-3/4 max-w-7xl">
         <Table className="w-full" highlightOnHover>
           <thead>
             <tr>
@@ -207,42 +206,19 @@ export default function Users({ defaultProfiles }) {
   );
 }
 
-export const getServerSideProps = withPageAuth({
-  redirectTo: "/login",
-  getServerSideProps: async ({ req, res }, supabaseClient) => {
-    const {
-      data: { user },
-      getUserError,
-    } = await supabaseClient.auth.getUser();
-    if (getUserError) {
-      throw getUserError;
-    }
-
-    const {
-      data: [userRole],
-      error: getUserRoleError,
-    } = await supabaseClient.from("user_roles").select("*").eq("user_id", user.id);
-    if (getUserRoleError) {
-      throw getUserRoleError;
-    }
-
-    if (userRole?.role !== "admin") {
-      res.writeHead(302, { Location: "/" });
-      res.end();
-      return { props: {} };
-    }
-
-    const { data: profiles, error: getProfilesError } = await supabaseClient.from("profiles").select(`
-      *, user_roles(*), user_bans(*)
-    `);
+export const getServerSideProps = withPageAuthWrap({}, [
+  banProtected(),
+  roleRequired(["admin"]),
+  async ({ res }, supabaseClient) => {
+    const { data: profiles, error: getProfilesError } = await supabaseClient.from("profiles").select(`*, user_roles(*), user_bans(*)`);
     if (getProfilesError) {
       throw getProfilesError;
     }
 
     return {
-      props: {
+      data: {
         defaultProfiles: profiles || null,
       },
     };
   },
-});
+]);
