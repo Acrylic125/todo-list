@@ -88,7 +88,7 @@ export const getServerSideProps = withPageAuthWrap({}, [
     }
 
     return {
-      data: {
+      props: {
         bans,
       },
     };
