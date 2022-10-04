@@ -2,11 +2,11 @@ import { Alert, Button, Center, Modal, Popover, Stack, Table, Text, Textarea } f
 import { DatePicker, TimeInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import moment from "moment";
 import React, { useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import Section from "../../components/Section";
 import banProtected from "../../utils/banProtected";
 import roleRequired from "../../utils/roleRequired";
@@ -167,8 +167,17 @@ function UserPopover({ onBan, profileId }) {
   );
 }
 
-export default function Users({ defaultProfiles }) {
-  const [profiles, setProfiles] = useState(defaultProfiles);
+export default function Users({}) {
+  const { supabaseClient } = useSessionContext();
+
+  const { data: profilesData } = useQuery(["profiles"], async () => {
+    const { data: profiles, error: getProfilesError } = await supabaseClient.from("profiles").select(`*, user_roles(*), user_bans(*)`);
+    if (getProfilesError) {
+      throw getProfilesError;
+    }
+    return profiles;
+  });
+  const profiles = profilesData || [];
 
   const rows = profiles?.map((profile) => {
     return (
@@ -206,19 +215,4 @@ export default function Users({ defaultProfiles }) {
   );
 }
 
-export const getServerSideProps = withPageAuthWrap({}, [
-  banProtected(),
-  roleRequired(["admin"]),
-  async ({ res }, supabaseClient) => {
-    const { data: profiles, error: getProfilesError } = await supabaseClient.from("profiles").select(`*, user_roles(*), user_bans(*)`);
-    if (getProfilesError) {
-      throw getProfilesError;
-    }
-
-    return {
-      data: {
-        defaultProfiles: profiles || null,
-      },
-    };
-  },
-]);
+export const getServerSideProps = withPageAuthWrap({}, [banProtected(), roleRequired(["admin"])]);

@@ -8,6 +8,21 @@ import "../styles/globals.css";
 // Create a client
 const queryClient = new QueryClient();
 
+// const isBrowser = typeof document !== "undefined";
+
+// function createEmotionCacheWrapper() {
+//   let insertionPoint;
+
+//   console.log("createEmotionCacheWrapper");
+//   if (isBrowser) {
+//     const emotionInsertionPoint = document.querySelector('meta[name="emotion-insertion-point"]');
+//     console.log("emotionInsertionPoint", emotionInsertionPoint);
+//     insertionPoint = emotionInsertionPoint ?? undefined;
+//   }
+
+//   return createEmotionCache({ key: "mantine", insertionPoint });
+// }
+
 /**
  * This cache is needed to prevent the tailwind preflight from overriding
  * the default mantine styles.
@@ -15,7 +30,7 @@ const queryClient = new QueryClient();
  */
 const emotionCache = createEmotionCache({
   key: "mantine",
-  prepend: false,
+  prepend: false, // TODO: Convert this to insertion point.
 });
 
 export default function App({ Component, pageProps }) {
@@ -30,6 +45,7 @@ export default function App({ Component, pageProps }) {
           theme={{
             colorScheme: "dark",
           }}
+          // emotionCache={createEmotionCacheWrapper()}
           emotionCache={emotionCache}
         >
           <Component {...pageProps} />

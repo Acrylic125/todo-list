@@ -1,17 +1,39 @@
-import { Alert, Space, Stack, Text } from "@mantine/core";
+import { Alert, clsx, Space, Stack, Text } from "@mantine/core";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import Section from "../Section";
 import CreateTodo from "./CreateTodo";
 import Todo from "./Todo";
 
-export default function Todos({ defaultTodos, style, className }) {
+export default function Todos({ style, className }) {
+  /**
+   * We need to store the todos as a state rather than using the returned data
+   * from the useQuery hook because we need to update the todos when the user
+   * updates or deletes a todo for optimistic update.
+   */
   const { supabaseClient } = useSessionContext();
-  const [todos, setTodos] = useState(defaultTodos);
   const queryClient = useQueryClient();
-  const { mutate: createTodo } = useMutation({
-    mutationFn: async ({ todo }) => {
+  const { data: todosData } = useQuery(["todos"], async () => {
+    const {
+      data: { user },
+      error: getUserError,
+    } = await supabaseClient.auth.getUser();
+    if (getUserError) {
+      throw getUserError;
+    }
+
+    const { data: todos, error: getTodosError } = await supabaseClient.from("todos").select("*").eq("user_id", user.id);
+    if (getTodosError) {
+      throw getTodosError;
+    }
+
+    return todos;
+  });
+  const todos = todosData || [];
+
+  const { mutate: createTodo } = useMutation(
+    async (newTodo) => {
       const {
         data: { user },
         error: userError,
@@ -23,33 +45,77 @@ export default function Todos({ defaultTodos, style, className }) {
         throw new Error("No user found");
       }
 
-      const { data, error } = await supabaseClient.from("todos").insert({ title: todo, user_id: user.id });
-      if (error) throw new Error(error.message);
-      return data;
-    },
-  });
-  const { mutate: updateTodo } = useMutation(
-    async (options) => {
-      const { data, error } = await supabaseClient.from("todos").update(options).eq("id", options.id);
+      const { data, error } = await supabaseClient.from("todos").insert({ title: newTodo.title, user_id: user.id });
       if (error) throw new Error(error.message);
       return data;
     },
     {
-      onMutate: async (options) => {
-        await queryClient.cancelQueries(["update-todos", options.id]);
-        const previous = queryClient.getQueryData(["update-todos", options.id]);
-        queryClient.setQueryData(["update-todos", options.id], options);
+      onMutate: async (newTodo) => {
+        // We are NOT cancelling the request to delete the todo, we are cancelling
+        // any requests to REFETCH the todos. We will always want to refetch the
+        // once after any set of mutations.
+        await queryClient.cancelQueries(["todos"]);
+        const previous = queryClient.getQueryData(["todos"]);
+
+        // console.log(newTodo);
+        queryClient.setQueryData(["todos"], (old) => {
+          return [
+            ...old,
+            {
+              id: Math.random(),
+              title: newTodo.title,
+              completed: false,
+              isLoading: true,
+            },
+          ];
+        });
 
         return {
           previous,
-          options,
         };
       },
       onError: (err, variables, context) => {
-        queryClient.setQueryData(["update-todos", context.options.id], context.previous);
+        queryClient.setQueryData(["todos"], context.previous);
       },
       onSettled: (newTodo, error, variables, options) => {
-        queryClient.invalidateQueries(["update-todos", options.options.id]);
+        // Refetch the todos after the mutation is done.
+        queryClient.invalidateQueries(["todos"]);
+      },
+    }
+  );
+  const { mutate: updateTodo } = useMutation(
+    async (newTodo) => {
+      const { data, error } = await supabaseClient.from("todos").update(newTodo).eq("id", newTodo.id);
+      if (error) throw new Error(error.message);
+      return data;
+    },
+    {
+      onMutate: async (newTodo) => {
+        // We are NOT cancelling the request to delete the todo, we are cancelling
+        // any requests to REFETCH the todos. We will always want to refetch the
+        // once after any set of mutations.
+        await queryClient.cancelQueries(["todos"]);
+        const previous = queryClient.getQueryData(["todos"]);
+
+        queryClient.setQueryData(["todos"], (old) => {
+          return old.map((todo) => {
+            if (todo.id === newTodo.id) {
+              return { ...todo, ...newTodo };
+            }
+            return todo;
+          });
+        });
+
+        return {
+          previous,
+        };
+      },
+      onError: (err, variables, context) => {
+        queryClient.setQueryData(["todos"], context.previous);
+      },
+      onSettled: (newTodo, error, variables, options) => {
+        // Refetch the todos after the mutation is done.
+        queryClient.invalidateQueries(["todos"]);
       },
     }
   );
@@ -61,20 +127,28 @@ export default function Todos({ defaultTodos, style, className }) {
     },
     {
       onMutate: async (options) => {
-        await queryClient.cancelQueries(["delete-todos", options.id]);
-        const previous = queryClient.getQueryData(["delete-todos", options.id]);
-        queryClient.setQueryData(["delete-todos", options.id], options);
+        // We are NOT cancelling the request to delete the todo, we are cancelling
+        // any requests to REFETCH the todos. We will always want to refetch the
+        // once after any set of mutations.
+        await queryClient.cancelQueries(["todos"]);
+        const previous = queryClient.getQueryData(["todos"]);
+
+        // We optimistically update the todos by removing the todo that is being deleted.
+        queryClient.setQueryData(
+          ["todos"],
+          todos.filter((todo) => todo.id !== options.id)
+        );
 
         return {
           previous,
-          options,
         };
       },
       onError: (err, variables, context) => {
-        queryClient.setQueryData(["delete-todos", context.options.id], context.previous);
+        queryClient.setQueryData(["todos"], context.previous);
       },
       onSettled: (newTodo, error, variables, options) => {
-        queryClient.invalidateQueries(["delete-todos", options.options.id]);
+        // Refetch the todos after the mutation is done.
+        queryClient.invalidateQueries(["todos"]);
       },
     }
   );
@@ -85,9 +159,9 @@ export default function Todos({ defaultTodos, style, className }) {
         <Text className="font-bold">Create a todo</Text>
         <Space h="md" />
         <CreateTodo
-          onRequestCreateTodo={(todo) => {
+          onRequestCreateTodo={(title) => {
             createTodo({
-              todo,
+              title,
             });
           }}
         />
@@ -95,15 +169,17 @@ export default function Todos({ defaultTodos, style, className }) {
       {todos?.length > 0 ? (
         todos
           .sort((a, b) => {
+            if (a.isLoading) {
+              return -1;
+            }
             return new Date(b.created_at) - new Date(a.created_at);
           })
-          .map(({ id, title, created_at, completed }) => (
+          .map(({ id, title, created_at, completed, isLoading }) => (
             <Todo
               key={id}
               id={id}
               onDelete={() => {
                 deleteTodo({ id });
-                setTodos(todos.filter((todo) => todo.id !== id));
               }}
               onUpdate={(options) => {
                 updateTodo({
@@ -111,9 +187,10 @@ export default function Todos({ defaultTodos, style, className }) {
                   ...options,
                 });
               }}
-              defaultTitle={title}
-              defaultCompleted={completed}
-              defaultCreatedAt={new Date(created_at)}
+              title={title}
+              completed={completed}
+              createdAt={created_at && new Date(created_at)}
+              className={isLoading ? "opacity-20" : ""}
             />
           ))
       ) : (
