@@ -4,9 +4,7 @@ import { useState } from "react";
 import Section from "../Section";
 import EditTodoForm from "./EditTodoForm";
 
-export default function Todo({ defaultTitle, defaultCompleted, defaultCreatedAt, onUpdate, onDelete, className }) {
-  const [title, setTitle] = useState(defaultTitle);
-  const [completed, setCompleted] = useState(defaultCompleted);
+export default function Todo({ title, completed, createdAt, onUpdate, onDelete, className }) {
   const [editing, setEditing] = useState(false);
 
   const update = (newTodo) => {
@@ -33,7 +31,6 @@ export default function Todo({ defaultTitle, defaultCompleted, defaultCreatedAt,
             }
           }}
           onEdit={({ title }) => {
-            setTitle(title);
             update({ title });
             setEditing(false);
           }}
@@ -52,13 +49,12 @@ export default function Todo({ defaultTitle, defaultCompleted, defaultCreatedAt,
                 event.stopPropagation();
               }}
               onChange={(event) => {
-                setCompleted(event.currentTarget.checked);
                 update({ completed: event.currentTarget.checked });
               }}
             />
             <div className="flex flex-row gap-4 items-center justify-between w-full">
               <h5>{title}</h5>
-              <p className="whitespace-nowrap">{moment(defaultCreatedAt).format("MMM DD, YYYY")}</p>
+              {createdAt && <p className="whitespace-nowrap">{moment(createdAt).format("MMM DD, YYYY")}</p>}
             </div>
           </div>
         </Section>
