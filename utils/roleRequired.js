@@ -1,4 +1,4 @@
-import { SupabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 /**
  * @param {string | string[]} roles
@@ -33,13 +33,13 @@ const roleRequired = (roles, whenNotRole) => {
 
         return {
           terminate: true,
-          data: whenNotRoleResult,
+          results: whenNotRoleResult,
         };
       }
 
       return {
         terminate: true,
-        data: {
+        results: {
           redirect: {
             statusCode: 302,
             destination: "/",
@@ -49,9 +49,7 @@ const roleRequired = (roles, whenNotRole) => {
     }
 
     return {
-      data: {
-        props: {},
-      },
+      props: {},
     };
   };
 };

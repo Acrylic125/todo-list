@@ -30,12 +30,12 @@ const banProtected = (whenBanned) => {
           const whenBannedResult = await whenBanned(ctx, supabaseClient, bans);
           return {
             terminate: true,
-            data: whenBannedResult,
+            results: whenBannedResult,
           };
         }
         return {
           terminate: true,
-          data: {
+          results: {
             redirect: {
               permanent: true,
               destination: "/ban",
@@ -45,7 +45,7 @@ const banProtected = (whenBanned) => {
       }
 
       return {
-        data: {},
+        props: {},
       };
     }
   };

@@ -15,7 +15,7 @@ import { SupabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
  * Each function can terminate the execution of the array by returning a result with
  * the terminate property set to true.
  *
- * @typedef {{ terminate: true, data: import("next").GetServerSidePropsResult<P> } | { terminate: false, data: any }} AuthWrapFunctionResults
+ * @typedef {{ terminate: true, results: import("next").GetServerSidePropsResult<P> } | { terminate: false, props: P }} AuthWrapFunctionResults<P>
  * @template {any} P
  */
 
@@ -31,18 +31,18 @@ import { SupabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
 const withPageAuthWrap = ({ authRequired, redirectTo, getServerSideProps, cookieOptions }, functions) => {
   return withPageAuth({
     authRequired,
-    redirectTo,
+    redirectTo: redirectTo || "/login",
     getServerSideProps: async (context, supabaseClient) => {
       var props = {};
       for (const func of functions) {
         const result = await func(context, supabaseClient);
         if (result.terminate) {
           // The data returned is a GetServerSidePropsResult.
-          return result.data;
+          return result.results;
         }
         // The data returned is a props object. Here, we merge
         // the props object with the previous props object.
-        props = { ...props, ...result.data };
+        props = { ...props, ...result.props };
       }
       return {
         props,
