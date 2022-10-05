@@ -5,6 +5,7 @@ import moment from "moment";
 import momentDurationSetup from "moment-duration-format";
 import Section from "../../components/Section";
 import withPageAuthWrap from "../../utils/withPageAuthWrap";
+import { formatDuration } from "../../utils/string-utils";
 
 momentDurationSetup(moment);
 
@@ -33,10 +34,7 @@ export default function Index({ bans = [] }) {
                 You are currently banned from this website.
               </Text>
               <Text align="center">
-                {currentDate !== null &&
-                  `You will be unbanned in ${moment
-                    .duration(moment(sortedBans[0].expires).diff(currentDate))
-                    .format("y[y] M[m] d[d] h[h] m[min] s[s]")}`}
+                {currentDate !== null && `You will be unbanned in ${formatDuration(moment(sortedBans[0].expires).diff(currentDate))}`}
               </Text>
             </>
           ) : (
@@ -52,11 +50,7 @@ export default function Index({ bans = [] }) {
           currentDate !== null &&
           sortedBans.map((ban) => {
             return (
-              <Alert
-                key={ban.id}
-                title={<Text>Expires in {moment.duration(moment(ban.expires).diff(currentDate)).format("y[y] M[m] d[d] h[h] m[min] s[s]")}</Text>}
-                color="red"
-              >
+              <Alert key={ban.id} title={<Text>Expires in {formatDuration(moment(ban.expires).diff(currentDate))}</Text>} color="red">
                 <Text>Banned on {moment(ban.created_at).format("MMMM DD, YYYY, hh:mm:ss")}</Text>
                 <Space h="md" />
                 <Text>{ban.reason}</Text>
@@ -78,11 +72,7 @@ export const getServerSideProps = withPageAuthWrap({}, [
       throw getUserError;
     }
 
-    const { data: bans, error: getBansError } = await supabaseClient
-      .from("user_bans")
-      .select("*")
-      .eq("user_id", user.id)
-      .gt("expires", new Date().toISOString());
+    const { data: bans, error: getBansError } = await supabaseClient.from("user_bans").select("*").eq("user_id", user.id).gt("expires", "now()");
     if (getBansError) {
       throw getBansError;
     }
