@@ -1,3 +1,8 @@
+import moment from "moment";
+import momentDurationSetup from "moment-duration-format";
+
+momentDurationSetup(moment);
+
 /**
  *
  * @param {string[]} arr
@@ -19,4 +24,16 @@ export function lstrJoin(arr, s1, s2) {
  */
 export function strJoined(str) {
   return `${str instanceof Array ? lstrJoin(str, ", ", " and/or ") : str}`;
+}
+
+export function formatDuration(duration) {
+  return moment.duration(duration).format("y[y] M[m] d[d] h[h] m[min] s[s]");
+}
+
+export function formatDate(date) {
+  return moment(date).format("MMM DD, YYYY");
+}
+
+export function formatDateTime(dateTime) {
+  return moment(dateTime).format("MMM DD, YYYY, [at] hh:mm:ss");
 }
