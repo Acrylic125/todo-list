@@ -5,21 +5,11 @@ import Todos from "../components/todo/Todos";
 import banProtected from "../utils/banProtected";
 import withPageAuthWrap from "../utils/withPageAuthWrap";
 
-const Index = ({ todos }) => {
-  const { supabaseClient } = useSessionContext();
+const Index = () => {
   return (
-    <div>
-      <Button
-        onClick={() => {
-          supabaseClient.auth.signOut();
-        }}
-      >
-        Logout
-      </Button>
-      <Center>
-        <Todos className="w-3/4 max-w-7xl" />
-      </Center>
-    </div>
+    <Center py="md">
+      <Todos className="w-3/4 max-w-7xl" />
+    </Center>
   );
 };
 
