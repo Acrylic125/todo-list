@@ -1,15 +1,16 @@
 import { Checkbox, Modal } from "@mantine/core";
 import moment from "moment/moment";
-import { useState } from "react";
+import { memo, useState } from "react";
+import { formatDate } from "../../utils/string-utils";
 import Section from "../Section";
 import EditTodoForm from "./EditTodoForm";
 
-export default function Todo({ title, completed, createdAt, onUpdate, onDelete, className }) {
+const Todo = ({ id, title, completed, createdAt, onUpdate, onDelete, canEdit, className }) => {
   const [editing, setEditing] = useState(false);
 
   const update = (newTodo) => {
     if (onUpdate) {
-      onUpdate({ title, completed, ...newTodo });
+      onUpdate({ id, ...newTodo });
     }
   };
 
@@ -18,7 +19,7 @@ export default function Todo({ title, completed, createdAt, onUpdate, onDelete, 
       <Modal
         centered
         title="Edit todo"
-        opened={editing}
+        opened={canEdit && editing}
         onClose={() => {
           setEditing(false);
         }}
@@ -27,11 +28,11 @@ export default function Todo({ title, completed, createdAt, onUpdate, onDelete, 
           defaultTitle={title}
           onDelete={() => {
             if (onDelete) {
-              onDelete();
+              onDelete(id);
             }
           }}
           onEdit={({ title }) => {
-            update({ title });
+            update({ id, title });
             setEditing(false);
           }}
         />
@@ -54,11 +55,13 @@ export default function Todo({ title, completed, createdAt, onUpdate, onDelete, 
             />
             <div className="flex flex-row gap-4 items-center justify-between w-full">
               <h5>{title}</h5>
-              {createdAt && <p className="whitespace-nowrap">{moment(createdAt).format("MMM DD, YYYY")}</p>}
+              {createdAt && <p className="whitespace-nowrap">{formatDate(createdAt)}</p>}
             </div>
           </div>
         </Section>
       </div>
     </>
   );
-}
+};
+
+export default memo(Todo);
