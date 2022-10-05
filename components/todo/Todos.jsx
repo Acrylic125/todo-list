@@ -120,13 +120,13 @@ export default function Todos({ style, className }) {
     }
   );
   const { mutate: deleteTodo } = useMutation(
-    async (options) => {
-      const { data, error } = await supabaseClient.from("todos").delete().eq("id", options.id);
+    async (todoId) => {
+      const { data, error } = await supabaseClient.from("todos").delete().eq("id", todoId);
       if (error) throw new Error(error.message);
       return data;
     },
     {
-      onMutate: async (options) => {
+      onMutate: async (todoId) => {
         // We are NOT cancelling the request to delete the todo, we are cancelling
         // any requests to REFETCH the todos. We will always want to refetch the
         // once after any set of mutations.
@@ -136,7 +136,7 @@ export default function Todos({ style, className }) {
         // We optimistically update the todos by removing the todo that is being deleted.
         queryClient.setQueryData(
           ["todos"],
-          todos.filter((todo) => todo.id !== options.id)
+          todos.filter((todo) => todo.id !== todoId)
         );
 
         return {
@@ -178,18 +178,12 @@ export default function Todos({ style, className }) {
             <Todo
               key={id}
               id={id}
-              onDelete={() => {
-                deleteTodo({ id });
-              }}
-              onUpdate={(options) => {
-                updateTodo({
-                  id,
-                  ...options,
-                });
-              }}
+              onDelete={deleteTodo}
+              onUpdate={updateTodo}
               title={title}
+              canEdit={!isLoading}
               completed={completed}
-              createdAt={created_at && new Date(created_at)}
+              createdAt={created_at}
               className={isLoading ? "opacity-20" : ""}
             />
           ))
