@@ -1,28 +1,27 @@
 import {
-  createStyles,
-  Header,
-  HoverCard,
-  Group,
-  Button,
-  UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
-  Anchor,
-  Divider,
-  Center,
   Box,
   Burger,
-  Drawer,
-  Collapse,
-  ScrollArea,
+  Button,
+  Center,
   ChevronIcon,
+  Collapse,
+  createStyles,
+  Divider,
+  Drawer,
+  Group,
+  Header,
+  HoverCard,
+  ScrollArea,
+  Stack,
+  Text,
+  UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { getUser } from "../../api/users.api";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -90,17 +89,15 @@ const mockdata = [
   },
 ];
 
-export default function NavBar({ className }) {
+export default function NavBar({ user, className }) {
   const [drawer, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const { reload } = useRouter();
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
   const { supabaseClient } = useSessionContext();
-  const [loadedUser, setLoadedUser] = useState(false);
-  const [user, setUser] = useState(null);
 
   const links = mockdata.map((item) => (
-    <Link href={item.link}>
+    <Link key={item.title} href={item.link}>
       <UnstyledButton className={classes.subLink} key={item.title}>
         <Group noWrap align="flex-start">
           <div>
@@ -116,39 +113,27 @@ export default function NavBar({ className }) {
     </Link>
   ));
 
-  useEffect(() => {
-    (async () => {
-      const { data: user, error: getUserError } = await supabaseClient.auth.getUser();
-      if (getUserError) {
-        console.error(getUserError);
-      }
-      setUser(user);
-      setLoadedUser(true);
-    })();
-  }, []);
-
   var loginOrLogout = undefined;
-  if (loadedUser) {
-    if (user.user) {
-      loginOrLogout = (
-        <Button
-          variant="default"
-          onClick={async () => {
-            await supabaseClient.auth.signOut();
-            reload();
-          }}
-        >
-          Logout
-        </Button>
-      );
-    } else {
-      loginOrLogout = (
-        <Link href="/login">
-          <Button>Login</Button>
-        </Link>
-      );
-    }
+  if (user) {
+    loginOrLogout = (
+      <Button
+        variant="default"
+        onClick={async () => {
+          await supabaseClient.auth.signOut();
+          reload();
+        }}
+      >
+        Logout
+      </Button>
+    );
+  } else {
+    loginOrLogout = (
+      <Link href="/login">
+        <Button>Login</Button>
+      </Link>
+    );
   }
+  const userIsAdmin = user?.userRole.role === "admin";
 
   return (
     <Box className={className}>
@@ -158,28 +143,30 @@ export default function NavBar({ className }) {
             <Link href="/">
               <span className={classes.link}>My Todos</span>
             </Link>
-            <HoverCard width={400} position="bottom" radius="md" shadow="md" withinPortal>
-              <HoverCard.Target>
-                <a href="#" className={classes.link}>
-                  <Center inline>
-                    <Box component="span" mr={5}>
-                      Admin
-                    </Box>
-                    <ChevronIcon className={theme.fn.primaryColor()} />
-                  </Center>
-                </a>
-              </HoverCard.Target>
+            {userIsAdmin && (
+              <HoverCard width={400} position="bottom" radius="md" shadow="md" withinPortal>
+                <HoverCard.Target>
+                  <span href="#" className={classes.link}>
+                    <Center inline>
+                      <Box component="span" mr={5}>
+                        Admin
+                      </Box>
+                      <ChevronIcon className={theme.fn.primaryColor()} />
+                    </Center>
+                  </span>
+                </HoverCard.Target>
 
-              <HoverCard.Dropdown sx={{ overflow: "hidden" }}>
-                <Group position="apart" px="md">
-                  <Text weight={500}>Admin</Text>
-                </Group>
+                <HoverCard.Dropdown sx={{ overflow: "hidden" }}>
+                  <Group position="apart" px="md">
+                    <Text weight={500}>Admin</Text>
+                  </Group>
 
-                <Divider my="sm" mx="-md" color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"} />
+                  <Divider my="sm" mx="-md" color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"} />
 
-                <SimpleGrid spacing={0}>{links}</SimpleGrid>
-              </HoverCard.Dropdown>
-            </HoverCard>
+                  <Stack spacing={0}>{links}</Stack>
+                </HoverCard.Dropdown>
+              </HoverCard>
+            )}
           </Group>
 
           <Group className={classes.hiddenMobile}>{loginOrLogout}</Group>
@@ -196,19 +183,23 @@ export default function NavBar({ className }) {
             <span className={classes.link}>My Todos</span>
           </Link>
 
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-            </Center>
-          </UnstyledButton>
-          <Collapse in={linksOpened}>{links}</Collapse>
+          {userIsAdmin && (
+            <>
+              <UnstyledButton className={classes.link} onClick={toggleLinks}>
+                <Center inline>
+                  <Box component="span" mr={5}>
+                    Admin
+                  </Box>
+                </Center>
+              </UnstyledButton>
+              <Collapse in={linksOpened}>{links}</Collapse>
+            </>
+          )}
 
           <Divider my="sm" color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"} />
 
           <Group position="center" grow pb="xl" px="md">
-            {loginOrLogout}
+            <div key="lgl">{loginOrLogout}</div>
           </Group>
         </ScrollArea>
       </Drawer>

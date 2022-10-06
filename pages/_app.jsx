@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }) {
           // emotionCache={createEmotionCacheWrapper()}
           emotionCache={emotionCache}
         >
-          <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+          <Layout user={pageProps.user}>{getLayout(<Component {...pageProps} />)}</Layout>
         </MantineProvider>
       </SessionContextProvider>
     </QueryClientProvider>

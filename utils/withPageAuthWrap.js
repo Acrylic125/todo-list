@@ -1,4 +1,5 @@
 import { SupabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { getUser } from "../api/users.api";
 
 /**
  * What is this?
@@ -21,7 +22,7 @@ import { SupabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
 
 /**
  *
- * @typedef {(ctx: import("next").GetServerSidePropsContext, supabase: SupabaseClient) => Promise<
+ * @typedef {(ctx: import("next").GetServerSidePropsContext, supabase: SupabaseClient, user: import("@supabase/supabase-js").User & { userRole: { role: string } }) => Promise<
  * AuthWrapFunctionResults<any>
  * >} AuthWrapFunction
  * @type {(
@@ -33,20 +34,35 @@ const withPageAuthWrap = ({ authRequired, redirectTo, getServerSideProps, cookie
     authRequired,
     redirectTo: redirectTo || "/login",
     getServerSideProps: async (context, supabaseClient) => {
-      var props = {};
-      for (const func of functions) {
-        const result = await func(context, supabaseClient);
-        if (result.terminate) {
-          // The data returned is a GetServerSidePropsResult.
-          return result.results;
+      try {
+        const user = await getUser(supabaseClient, { includeRole: true });
+
+        if (user === null) {
+          throw new Error("User not found.");
         }
-        // The data returned is a props object. Here, we merge
-        // the props object with the previous props object.
-        props = { ...props, ...result.props };
+
+        var props = { user };
+        for (const func of functions) {
+          const result = await func(context, supabaseClient, user);
+          if (result.terminate) {
+            // The data returned is a GetServerSidePropsResult.
+            return result.results;
+          }
+          // The data returned is a props object. Here, we merge
+          // the props object with the previous props object.
+          props = { ...props, ...result.props };
+        }
+        return {
+          props,
+        };
+      } catch (err) {
+        console.error(err);
+        return {
+          redirect: {
+            destination: "/500",
+          },
+        };
       }
-      return {
-        props,
-      };
     },
     cookieOptions,
   });
