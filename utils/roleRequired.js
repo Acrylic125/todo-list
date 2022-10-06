@@ -1,4 +1,5 @@
 import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { getUser } from "../api/users.api";
 
 /**
  * @param {string | string[]} roles
@@ -8,22 +9,8 @@ import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
  */
 const roleRequired = (roles, whenNotRole) => {
   /** @type {import("./withPageAuthWrap").AuthWrapFunction} */
-  return async (ctx, supabaseClient) => {
-    const {
-      data: { user },
-      error: getUserError,
-    } = await supabaseClient.auth.getUser();
-    if (getUserError) {
-      throw getUserError;
-    }
-
-    const {
-      data: [userRole],
-      error: getUserRoleError,
-    } = await supabaseClient.from("user_roles").select("*").eq("user_id", user.id);
-    if (getUserRoleError) {
-      throw getUserRoleError;
-    }
+  return async (ctx, supabaseClient, user) => {
+    const { userRole } = user;
 
     var hasRole = roles instanceof Array ? roles.includes(userRole.role) : userRole.role === roles;
 
