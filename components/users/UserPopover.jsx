@@ -26,17 +26,6 @@ export default function UserPopover({ onBan, username, profileId }) {
                 fullWidth
                 compact
                 variant="subtle"
-                color="gray"
-              >
-                <p>Edit User</p>
-              </Button>
-              <Button
-                onClick={() => {
-                  setModal("ban");
-                }}
-                fullWidth
-                compact
-                variant="subtle"
                 color="red"
               >
                 <p>Ban User</p>

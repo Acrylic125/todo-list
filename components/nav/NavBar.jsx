@@ -97,7 +97,7 @@ export default function NavBar({ user, className }) {
   const { supabaseClient } = useSessionContext();
 
   const links = mockdata.map((item) => (
-    <Link href={item.link}>
+    <Link key={item.title} href={item.link}>
       <UnstyledButton className={classes.subLink} key={item.title}>
         <Group noWrap align="flex-start">
           <div>

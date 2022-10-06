@@ -23,7 +23,7 @@ export default function BanUserModal({ opened, onClose, onBan, username, profile
   });
 
   return (
-    <Modal centered opened={opened} onClose={onClose} title={<Text weight="bold">{username || "No Name"}'s Bans</Text>}>
+    <Modal centered opened={opened} onClose={onClose} title={<Text weight="bold">{username || "No Name"}&apos;s Bans</Text>}>
       <Stack my="md">
         <Alert color="blue" title="Note">
           <Text>Banned users will not be able to use their account.</Text>
