@@ -48,10 +48,9 @@ export default function LoginForm() {
           </Alert>
         )}
         <Group>
-          <Button disabled={formState === "loading"} type="submit">
+          <Button loading={formState === "loading"} disabled={formState === "loading"} type="submit">
             Login
           </Button>
-          {formState === "loading" && <Loader size="sm" />}
         </Group>
       </Stack>
     </form>
