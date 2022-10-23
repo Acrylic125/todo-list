@@ -1,6 +1,5 @@
-import { Alert, clsx, Space, Stack, Text } from "@mantine/core";
+import { Alert, Space, Stack, Text } from "@mantine/core";
 import { useSessionContext } from "@supabase/auth-helpers-react";
-import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Section from "../Section";
 import CreateTodo from "./CreateTodo";
