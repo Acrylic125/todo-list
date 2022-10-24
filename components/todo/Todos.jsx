@@ -33,19 +33,19 @@ export default function Todos({ style, className }) {
 
   const { mutate: createTodo } = useMutation(
     async (newTodo) => {
-      const {
-        data: { user },
-        error: userError,
-      } = await supabaseClient.auth.getUser();
-      if (userError) {
-        throw new userError();
-      }
-      if (!user) {
-        throw new Error("No user found");
-      }
+      // const {
+      //   data: { user },
+      //   error: userError,
+      // } = await supabaseClient.auth.getUser();
+      // if (userError) {
+      //   throw new userError();
+      // }
+      // if (!user) {
+      //   throw new Error("No user found");
+      // }
 
       const { data, error } = await supabaseClient.from("todos").insert({ title: newTodo.title, user_id: user.id });
-      if (error) throw new Error(error.message);
+      // if (error) throw new Error(error.message);
       return data;
     },
     {

@@ -1,4 +1,5 @@
 import { Button, Center } from "@mantine/core";
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import React from "react";
 import Todos from "../components/todo/Todos";
@@ -23,6 +24,9 @@ const Index = () => {
  * is frequently updated which is the case with our todos.
  * https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props#fetching-data-on-the-client-side
  */
-export const getServerSideProps = withPageAuthWrap({}, [banProtected()]);
+export const getServerSideProps = withPageAuth({
+  redirectTo: "/login",
+});
+// export const getServerSideProps = withPageAuthWrap({}, [banProtected()]);
 
 export default Index;
