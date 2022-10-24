@@ -21,16 +21,19 @@
     "@supabase/supabase-js": "^2.0.0-rc.10",
     "classnames": "^2.3.2",
     "cookies-next": "^2.1.1",
+    "daisyui": "^2.33.0",
     "dayjs": "^1.11.5",
     "jsonwebtoken": "^8.5.1",
+    "luxon": "^3.0.4",
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "next": "12.3.0",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
-    "react-icons": "^4.4.0",
-    "react-query": "^3.39.2"
+    "react-icons": "^4.6.0",
+    "react-query": "^3.39.2",
+    "react-tiny-popover": "^7.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",
