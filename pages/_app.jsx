@@ -20,7 +20,9 @@ export default function App({ Component, pageProps }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionContextProvider supabaseClient={supabaseClient}>{getLayout(<Component {...pageProps} />)}</SessionContextProvider>
+      <SessionContextProvider supabaseClient={supabaseClient}>
+        <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+      </SessionContextProvider>
     </QueryClientProvider>
   );
 }
