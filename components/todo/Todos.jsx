@@ -95,7 +95,7 @@ const Todos = () => {
   if (todos === undefined || todos.length === 0) {
     return (
       <div className="flex justify-center justi">
-        <p className="py-4">You don't have any todos yet. Add one above!</p>
+        <p className="py-4">You don&apos;t have any todos yet. Add one above!</p>
       </div>
     );
   }
