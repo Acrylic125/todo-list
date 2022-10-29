@@ -1,66 +1,96 @@
-import { Checkbox, Modal } from "@mantine/core";
-import moment from "moment/moment";
+import cx from "classnames";
+import { DateTime } from "luxon";
 import { memo, useState } from "react";
-import { formatDate } from "../../utils/string-utils";
-import Section from "../Section";
-import EditTodoForm from "./EditTodoForm";
+import TextareaAutosize from "react-textarea-autosize";
+import TodoActions from "./TodoActions";
 
-const Todo = ({ id, title, completed, createdAt, onUpdate, onDelete, canEdit, className }) => {
-  const [editing, setEditing] = useState(false);
+const Todo = ({ id, defaultTitle, defaultCompleted, dueOn, onRequestDelete, onRequestEdit, className }) => {
+  const [titleEditFocus, setTitleEditFocus] = useState(false);
+  const [dueOnEditFocus, setDueOnEditFocus] = useState(false);
+  const [title, setTitle] = useState(defaultTitle);
+  const [completed, setCompleted] = useState(defaultCompleted);
 
-  const update = (newTodo) => {
-    if (onUpdate) {
-      onUpdate({ id, ...newTodo });
+  function unfocusTitleEdit() {
+    setTitleEditFocus(false);
+    onRequestEdit({
+      id,
+      title,
+    });
+  }
+  function focusTitleEdit() {
+    setTitleEditFocus(true);
+  }
+  function unfocusKeyboard(e) {
+    if (e.key === "Escape") {
+      unfocusTitleEdit();
     }
-  };
+  }
+  function handleCompletedChange(e) {
+    setCompleted(e.target.checked);
+    onRequestEdit({
+      id,
+      completed: e.target.checked,
+    });
+  }
+  function handleTitleChange(e) {
+    setTitle(e.target.value);
+  }
+  function handleDueOnChange(e) {
+    const dueOn = e.target.value;
+    setDueOnEditFocus(false);
+    if (DateTime.fromISO(dueOn).isValid) {
+      onRequestEdit({
+        id,
+        due_on: dueOn,
+      });
+    }
+  }
+
+  const dueOnDateTime = DateTime.fromISO(dueOn);
 
   return (
-    <>
-      <Modal
-        centered
-        title="Edit todo"
-        opened={canEdit && editing}
-        onClose={() => {
-          setEditing(false);
-        }}
-      >
-        <EditTodoForm
-          defaultTitle={title}
-          onDelete={() => {
-            if (onDelete) {
-              onDelete(id);
+    <div className={cx(className, "flex flex-row gap-4 hover:bg-neutral-focus")}>
+      <input type="checkbox" onChange={handleCompletedChange} className="checkbox" checked={completed} />
+      {titleEditFocus ? (
+        <TextareaAutosize
+          autoFocus
+          onKeyDown={unfocusKeyboard}
+          onBlur={unfocusTitleEdit}
+          onChange={handleTitleChange}
+          className="flex-1 textarea p-0"
+          defaultValue={title}
+        />
+      ) : (
+        <h5 className="flex-1" onClick={focusTitleEdit}>
+          {title}
+        </h5>
+      )}
+
+      <div className="flex flex-row gap-4 items-center">
+        {dueOnEditFocus ? (
+          <input type="date" className="input" defaultValue={dueOn} autoFocus onBlur={handleDueOnChange} />
+        ) : (
+          <p
+            onClick={() => {
+              setDueOnEditFocus(true);
+            }}
+            className={cx({
+              "text-error": !dueOnDateTime.isValid || dueOnDateTime.diffNow().as("days") < 0,
+            })}
+          >
+            {dueOnDateTime.toFormat("LLL dd, yyyy")}
+          </p>
+        )}
+
+        <TodoActions
+          onRequestDelete={() => {
+            if (onRequestDelete) {
+              onRequestDelete(id);
             }
           }}
-          onEdit={({ title }) => {
-            update({ id, title });
-            setEditing(false);
-          }}
         />
-      </Modal>
-      <div
-        onClick={() => {
-          setEditing(true);
-        }}
-      >
-        <Section py="sm" className={className}>
-          <div className="w-full gap-4 flex flex-row ">
-            <Checkbox
-              checked={completed}
-              onClick={(event) => {
-                event.stopPropagation();
-              }}
-              onChange={(event) => {
-                update({ completed: event.currentTarget.checked });
-              }}
-            />
-            <div className="flex flex-row gap-4 items-center justify-between w-full">
-              <h5>{title}</h5>
-              {createdAt && <p className="whitespace-nowrap">{formatDate(createdAt)}</p>}
-            </div>
-          </div>
-        </Section>
       </div>
-    </>
+    </div>
   );
 };
 
