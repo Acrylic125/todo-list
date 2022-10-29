@@ -24,7 +24,7 @@ export async function getUser(supabaseClient, { jwt, includeRole } = {}) {
     if (getUserRoleError) {
       throw getUserRoleError;
     }
-    result.userRole = userRole;
+    result.userRole = userRole ?? null;
   }
 
   return result;

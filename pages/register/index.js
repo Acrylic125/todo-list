@@ -1,34 +1,24 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
-const LoginForm = () => {
-  const router = useRouter();
+const RegisterForm = () => {
   const supabaseClient = useSupabaseClient();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { mutate, isSuccess, isLoading, isError } = useMutation(
-    async ({ email, password }) => {
-      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  const { mutate, isSuccess, isLoading, isError } = useMutation(async ({ email, password }) => {
+    const { data, error } = await supabaseClient.auth.signUp({ email, password });
 
-      if (error) {
-        throw error;
-      }
-
-      return data;
-    },
-    {
-      onSuccess: () => {
-        router.push("/");
-      },
+    if (error) {
+      throw error;
     }
-  );
+
+    return data;
+  });
 
   function submit(data) {
     mutate({
@@ -60,6 +50,10 @@ const LoginForm = () => {
         <input
           {...register("password", {
             required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters",
+            },
           })}
           className="w-full input input-bordered"
           type="password"
@@ -82,27 +76,24 @@ const LoginForm = () => {
       )}
       <div className="flex gap-2">
         <button className="btn btn-primary" type="submit" disabled={isLoading || isSuccess}>
-          Login
+          Sign Up
         </button>
-        <Link href="/register">
-          <button className="btn btn-primary btn-outline">Register</button>
-        </Link>
       </div>
     </form>
   );
 };
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <div className="flex items-center justify-center w-screen h-screen">
       <section className="flex flex-col gap-8 max-w-xl w-full bg-neutral p-8 rounded-lg">
         <header>
-          <h1 className="text-xl font-bold">Login</h1>
+          <h1 className="text-xl font-bold">Register</h1>
         </header>
-        <LoginForm />
+        <RegisterForm />
       </section>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
