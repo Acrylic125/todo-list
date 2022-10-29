@@ -1,4 +1,4 @@
-import { SupabaseClient, withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 /**
  *
