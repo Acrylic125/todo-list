@@ -1,9 +1,8 @@
-import { createEmotionCache, MantineProvider } from "@mantine/core";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import Layout from "../components/layout";
+import Layout from "../components/layouts/Layout";
 import "../styles/globals.css";
 
 // Create a client
